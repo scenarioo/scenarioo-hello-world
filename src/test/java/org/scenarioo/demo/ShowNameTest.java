@@ -1,31 +1,43 @@
 package org.scenarioo.demo;
 
-import org.junit.Before;
+import static org.junit.Assert.assertEquals;
+
+import java.io.File;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.scenarioo.selenium.ScenariooRule;
 
 public class ShowNameTest {
 	
-	private static final String BASE_URL = "http://scenarioo.github.io/scenarioo-hello-world-app/";
-	private WebDriver webDriver;
+	@Rule
+	public ScenariooRule scenariooRule = new ScenariooRule(new File("data"), "mybranch", "mybuild");
 	
-	@Before
-	public void createDriver() {
+	private static final String BASE_URL = "http://scenarioo.github.io/scenarioo-hello-world-app/";
+	private static WebDriver webDriver;
+	
+	@BeforeClass
+	public static void createDriver() {
 		webDriver = new FirefoxDriver();
+	}
+	
+	@AfterClass
+	public static void closeDriver() {
+		webDriver.quit();
 	}
 	
 	@Test
 	public void showGenericName() {
 		openStartpage();
 		chooseEnterGenericName();
-		enterName("Scenarioo User");
-		assertName("Scenarioo User");
+		enterName("Custom User");
+		assertName("Custom User");
 	}
 
 	private void openStartpage() {
