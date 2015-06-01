@@ -1,0 +1,22 @@
+group = 'org.scenarioo'
+version = '1.0.0-SNAPSHOT'
+
+apply plugin: 'eclipse'
+apply plugin: 'java'
+
+sourceCompatibility=1.7
+targetCompatibility=1.7
+
+repositories {
+	maven {
+		url "https://raw.github.com/scenarioo/mvn-repo/master"
+	}
+	mavenCentral()
+}
+
+dependencies {
+    compile 'org.seleniumhq.selenium:selenium-java:2.+'
+    compile 'org.scenarioo:scenarioo-java:2.0.+'
+    compile 'junit:junit:4.11'
+
+}
