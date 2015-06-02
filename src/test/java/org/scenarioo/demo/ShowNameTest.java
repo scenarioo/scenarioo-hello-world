@@ -1,10 +1,10 @@
 package org.scenarioo.demo;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,6 +20,11 @@ public class ShowNameTest {
 		webDriver = new FirefoxDriver();
 	}
 	
+	@After
+	public void closeDriver() {
+		webDriver.quit();
+	}
+	
 	@Test
 	public void showGenericName() {
 		openStartpage();
@@ -28,6 +33,13 @@ public class ShowNameTest {
 		assertName("Scenarioo User");
 	}
 
+	@Test
+	public void showFixedName() {
+		openStartpage();
+		chooseFixedName();
+		assertName("Scenarioo User");
+	}	
+	
 	private void openStartpage() {
 		webDriver.get(BASE_URL);
 	}
@@ -35,6 +47,11 @@ public class ShowNameTest {
 	private void chooseEnterGenericName() {
 		WebElement genericNameBox = webDriver.findElement(By.cssSelector("#uc1 a"));
 		genericNameBox.click();
+	}
+	
+	private void chooseFixedName() {
+		WebElement box = webDriver.findElement(By.cssSelector("#uc2 a"));
+		box.click();		
 	}
 
 	private void enterName(String name) {
