@@ -24,7 +24,7 @@ public class ShowNameTest {
 	@Rule
 	public ScenariooRule scenariooRule = new ScenariooRule(writer);
 	
-	private static final String BASE_URL = "http://scenarioo.github.io/scenarioo-hello-world-app/";
+	private static final String BASE_URL = "http://scenarioo.github.io/scenarioo-hello-world-app/index.html";
 	private WebDriver webDriver;
 	
 	@Before
@@ -48,6 +48,15 @@ public class ShowNameTest {
 		assertName("Custom User");
 	}
 
+	@Test
+	public void showFixedName() {
+		openStartpage();
+		chooseFixedName();
+		assertName("Scenarioo User");
+	}	
+	
+
+
 	private void openStartpage() {
 		webDriver.get(BASE_URL);
 	}
@@ -55,6 +64,11 @@ public class ShowNameTest {
 	private void chooseEnterGenericName() {
 		WebElement genericNameBox = webDriver.findElement(By.cssSelector("#uc1 a"));
 		genericNameBox.click();
+	}
+	
+	private void chooseFixedName() {
+		WebElement box = webDriver.findElement(By.cssSelector("#uc2 a"));
+		box.click();		
 	}
 
 	private void enterName(String name) {

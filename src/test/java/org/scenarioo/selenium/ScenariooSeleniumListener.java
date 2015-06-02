@@ -43,7 +43,7 @@ public class ScenariooSeleniumListener extends AbstractWebDriverEventListener {
 		step.setStepDescription(stepDescription);
 		
 		step.setPage(new Page(sanitizeUrl(driver.getCurrentUrl())));
-		
+
 		TakesScreenshot screenshotDriver = (TakesScreenshot) driver;
 		byte[] screenshot = screenshotDriver.getScreenshotAs(OutputType.BYTES);
 		writer.saveScreenshotAsPng(rule.getCurrentUsecase().getName(), rule.getCurrentScenario().getName(), currentIndex++, screenshot);
@@ -52,6 +52,7 @@ public class ScenariooSeleniumListener extends AbstractWebDriverEventListener {
 	
 	private String sanitizeUrl(String currentUrl) {
 		currentUrl = currentUrl.replaceAll("http://scenarioo.github.io/scenarioo-hello-world-app/", "");
+		currentUrl = currentUrl.replaceAll("\\?.*", "");
 		currentUrl = currentUrl.replaceAll("/", "#");
 		
 		return currentUrl;
