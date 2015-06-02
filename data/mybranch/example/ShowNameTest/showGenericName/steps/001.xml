@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<step xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <page>
+        <name>views#usecase1.html</name>
+        <details/>
+        <labels/>
+    </page>
+    <stepDescription>
+        <index>1</index>
+        <title>Use case 1</title>
+        <status>success</status>
+        <screenshotFileName>001.png</screenshotFileName>
+        <labels/>
+        <details/>
+    </stepDescription>
+    <html>
+        <htmlSource>&lt;!DOCTYPE html&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;&lt;head lang=&quot;en&quot;&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;title&gt;Use case 1&lt;/title&gt;
+    &lt;link href=&quot;../css/layout.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot; /&gt;
+    &lt;script src=&quot;../bower_components/jquery/dist/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Generic name&lt;/h1&gt;
+&lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;dialog&quot;&gt;
+        &lt;p class=&quot;title&quot;&gt;Enter you name:&lt;/p&gt;
+        &lt;input type=&quot;text&quot; placeholder=&quot;your name&quot; id=&quot;nameInput&quot; /&gt;
+
+        &lt;a class=&quot;submitLink&quot; href=&quot;showName.html&quot; id=&quot;submitLink&quot;&gt;Send&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    $(function() {
+        $(&quot;#nameInput&quot;).change(function() {
+            var name = $(&quot;#nameInput&quot;).val();
+            var baseUrl = &quot;showName.html?name=&quot;;
+            var withParam = baseUrl + name;
+            $(&quot;#submitLink&quot;).attr(&quot;href&quot;, withParam);
+        });
+    });
+&lt;/script&gt;
+
+&lt;/body&gt;&lt;/html&gt;</htmlSource>
+    </html>
+    <metadata>
+        <details/>
+    </metadata>
+</step>
