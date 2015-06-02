@@ -1,7 +1,5 @@
 package org.scenarioo.selenium;
 
-import java.io.File;
-
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -12,9 +10,11 @@ import org.scenarioo.model.docu.entities.UseCase;
 public class ScenariooRule implements TestRule {
 
 	private ScenarioDocuWriter writer;
+	private UseCase currentUsecase;
+	private Scenario currentScenario;
 	
-	public ScenariooRule(File buildDirectory, String branch, String build) {
-		this.writer = new ScenarioDocuWriter(buildDirectory, branch, build);
+	public ScenariooRule(ScenarioDocuWriter writer) {
+		this.writer = writer;
 	}
 	
 	@Override
@@ -23,22 +23,24 @@ public class ScenariooRule implements TestRule {
 
 			@Override
 			public void evaluate() throws Throwable {
-				createUseCaseDirectory(description);
-				createScenarioDirectory(description);
+				saveUseCase(description);
+				saveScenario(description);
 				base.evaluate();
 			}
 
-			private void createScenarioDirectory(Description description) {
+			private void saveScenario(Description description) {
 				Scenario scenario = new Scenario();
 				scenario.setName(description.getMethodName());
+				currentScenario = scenario;
 				writer.saveScenario(getUseCaseName(description), scenario);
 			}
 
 
-			private void createUseCaseDirectory(Description description) {
+			private void saveUseCase(Description description) {
 				UseCase useCase = new UseCase();
 				useCase.setName(getUseCaseName(description));
-				writer.saveUseCase(useCase );
+				currentUsecase = useCase;
+				writer.saveUseCase(useCase);
 			}
 			
 			private String getUseCaseName(Description description) {
@@ -47,4 +49,11 @@ public class ScenariooRule implements TestRule {
 		};
 	}
 
+	public Scenario getCurrentScenario() {
+		return currentScenario;
+	}
+	
+	public UseCase getCurrentUsecase() {
+		return currentUsecase;
+	}
 }

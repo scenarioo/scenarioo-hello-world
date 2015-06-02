@@ -4,32 +4,40 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.selenium.ScenariooRule;
+import org.scenarioo.selenium.ScenariooSeleniumListener;
 
 public class ShowNameTest {
 	
+	private ScenarioDocuWriter writer = new ScenarioDocuWriter(new File("data"), "mybranch", "mybuild");
+	
 	@Rule
-	public ScenariooRule scenariooRule = new ScenariooRule(new File("data"), "mybranch", "mybuild");
+	public ScenariooRule scenariooRule = new ScenariooRule(writer);
 	
 	private static final String BASE_URL = "http://scenarioo.github.io/scenarioo-hello-world-app/";
-	private static WebDriver webDriver;
+	private WebDriver webDriver;
 	
-	@BeforeClass
-	public static void createDriver() {
-		webDriver = new FirefoxDriver();
+	@Before
+	public void createDriver() {
+		EventFiringWebDriver eventFiringWebDriver = new EventFiringWebDriver(new FirefoxDriver());
+		eventFiringWebDriver.register(new ScenariooSeleniumListener(writer, scenariooRule));
+		webDriver = eventFiringWebDriver;
 	}
 	
-	@AfterClass
-	public static void closeDriver() {
+	@After
+	public void closeDriver() {
 		webDriver.quit();
+		writer.flush();
 	}
 	
 	@Test
