@@ -1,3 +1,5 @@
+import groovy.io.FileType
+
 group = 'org.scenarioo'
 version = '1.0.0-SNAPSHOT'
 
@@ -19,4 +21,20 @@ dependencies {
     compile 'org.scenarioo:scenarioo-java:2.0.+'
     compile 'junit:junit:4.11'
 
+}
+
+task cleanBuildDirectory() {
+	File dataDir = new File("data")
+	
+	dataDir.eachFileRecurse () { file ->
+  		List keep = ["mybranch", "mybuild", "branch.xml", "build.xml"]
+  		
+  		if(!keep.contains(file.name) && file.exists()) {
+  			if(file.isDirectory()) {
+  				file.deleteDir();
+  			} else {
+  				file.delete();
+  			}
+  		}
+	}
 }
