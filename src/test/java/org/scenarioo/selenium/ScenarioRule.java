@@ -5,16 +5,16 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.model.docu.entities.Scenario;
-import org.scenarioo.model.docu.entities.UseCase;
 
-public class ScenariooRule implements TestRule {
+public class ScenarioRule implements TestRule {
 
 	private ScenarioDocuWriter writer;
-	private UseCase currentUsecase;
 	private Scenario currentScenario;
+	private UseCaseRule useCaseRule;
 	
-	public ScenariooRule(ScenarioDocuWriter writer) {
+	public ScenarioRule(ScenarioDocuWriter writer, UseCaseRule useCaseRule) {
 		this.writer = writer;
+		this.useCaseRule = useCaseRule;
 	}
 	
 	@Override
@@ -23,7 +23,6 @@ public class ScenariooRule implements TestRule {
 
 			@Override
 			public void evaluate() throws Throwable {
-				saveUseCase(description);
 				saveScenario(description);
 				base.evaluate();
 			}
@@ -32,28 +31,13 @@ public class ScenariooRule implements TestRule {
 				Scenario scenario = new Scenario();
 				scenario.setName(description.getMethodName());
 				currentScenario = scenario;
-				writer.saveScenario(getUseCaseName(description), scenario);
+				writer.saveScenario(useCaseRule.getCurrentUseCase(), scenario);
 			}
 
-
-			private void saveUseCase(Description description) {
-				UseCase useCase = new UseCase();
-				useCase.setName(getUseCaseName(description));
-				currentUsecase = useCase;
-				writer.saveUseCase(useCase);
-			}
-			
-			private String getUseCaseName(Description description) {
-				return description.getTestClass().getSimpleName();
-			}
 		};
 	}
 
 	public Scenario getCurrentScenario() {
 		return currentScenario;
-	}
-	
-	public UseCase getCurrentUsecase() {
-		return currentUsecase;
 	}
 }

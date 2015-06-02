@@ -14,13 +14,15 @@ import org.scenarioo.model.docu.entities.StepHtml;
 public class ScenariooSeleniumListener extends AbstractWebDriverEventListener {
 	
 	private ScenarioDocuWriter writer;
-	private ScenariooRule rule;
+	private ScenarioRule scenarioRule;
+	private UseCaseRule usecaseRule;
 
 	private int currentIndex = 0;
 	
-	public ScenariooSeleniumListener(ScenarioDocuWriter writer, ScenariooRule rule) {
+	public ScenariooSeleniumListener(ScenarioDocuWriter writer, UseCaseRule usecaseRule, ScenarioRule rule) {
 		this.writer = writer;
-		this.rule = rule;
+		this.usecaseRule = usecaseRule;
+		this.scenarioRule = rule;
 	}
 
 	@Override
@@ -46,8 +48,8 @@ public class ScenariooSeleniumListener extends AbstractWebDriverEventListener {
 
 		TakesScreenshot screenshotDriver = (TakesScreenshot) driver;
 		byte[] screenshot = screenshotDriver.getScreenshotAs(OutputType.BYTES);
-		writer.saveScreenshotAsPng(rule.getCurrentUsecase().getName(), rule.getCurrentScenario().getName(), currentIndex++, screenshot);
-		writer.saveStep(rule.getCurrentUsecase(), rule.getCurrentScenario(), step);
+		writer.saveScreenshotAsPng(usecaseRule.getCurrentUseCase().getName(), scenarioRule.getCurrentScenario().getName(), currentIndex++, screenshot);
+		writer.saveStep(usecaseRule.getCurrentUseCase(), scenarioRule.getCurrentScenario(), step);
 	}
 	
 	private String sanitizeUrl(String currentUrl) {
