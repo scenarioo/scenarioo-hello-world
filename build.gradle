@@ -3,6 +3,7 @@ version = '1.0.0-SNAPSHOT'
 
 apply plugin: 'eclipse'
 apply plugin: 'java'
+apply plugin: 'idea'
 
 sourceCompatibility=1.7
 targetCompatibility=1.7
@@ -19,4 +20,8 @@ dependencies {
     compile 'org.scenarioo:scenarioo-java:2.0.+'
     compile 'junit:junit:4.11'
 
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.4'
 }
